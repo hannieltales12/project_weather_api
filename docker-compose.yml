@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  django_weather_app:
+    container_name: django_weather_app
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+      - ./django_weather_app:/django_weather_app
+      - ./data/web/static:/data/web/static/
+      - ./data/web/media:/data/web/media/
+    env_file:
+      - ./dotenv_files/.env
+    depends_on:
+      - postgres
+  postgres:
+    container_name: postgres
+    image: postgres:13-alpine
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data/
+    env_file:
+      - ./dotenv_files/.env
